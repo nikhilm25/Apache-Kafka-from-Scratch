@@ -10,7 +10,6 @@ public class Main {
     ServerSocket serverSocket = null; 
     Socket clientSocket = null;
     int port = 9092;
-    byte[] messageSize_correlationId = {0,0,0,0,0,0,0,7};
     try {
       serverSocket = new ServerSocket(port);
       // Since the tester restarts your program quite often, setting SO_REUSEADDR
@@ -18,7 +17,31 @@ public class Main {
       serverSocket.setReuseAddress(true);
       // Wait for connection from client.
       clientSocket = serverSocket.accept();
-      clientSocket.getOutputStream().write(messageSize_correlationId);
+
+
+      BufferedInputStream input = new BufferedInputStream(clientSocket.getInputStream());
+      
+      byte[] messageSizeBytes = input.readNbytes(4);
+      byte[] requestApiKeyBytes = input.readNbytes(2);
+      byte[] requestApiVersionBytes = input.readNbytes(2);
+      byte[] correlationIdBytes = input.readNbytes(4);
+
+      int messageSize = ByteBuffer.wrap(messageSizeBytes).getInt():
+      int requestApiKey = ByteBuffer.wrap(requestApiKeyBytes).getInt():
+      int requestApiVersion= ByteBuffer.wrap(requestApiVersionBytes).getInt():
+      int correlationId= ByteBuffer.wrap(correlationIdBytes).getInt():
+
+
+
+
+      clientSocket.getOutputStream().write(messageSizeBytes);
+      
+      clientSocket.getOutputStream().write(correlationIdBytes);
+      
+
+
+
+
     } catch (IOException e) {
       System.out.println("IOException: " + e.getMessage());
     } finally {
