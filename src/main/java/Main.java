@@ -30,22 +30,22 @@ public class Main {
 
       BufferedInputStream input = new BufferedInputStream(clientSocket.getInputStream());
       
-      byte[] messageSizeBytes = input.readNbytes(4);
-      byte[] requestApiKeyBytes = input.readNbytes(2);
-      byte[] requestApiVersionBytes = input.readNbytes(2);
-      byte[] correlationIdBytes = input.readNbytes(4);
+    //  byte[] messageSizeBytes = input.readNbytes(4);
+    //  byte[] requestApiKeyBytes = input.readNbytes(2);
+    //  byte[] requestApiVersionBytes = input.readNbytes(2);
+    //  byte[] correlationIdBytes = input.readNbytes(4);
 
       //int messageSize = ByteBuffer.wrap(messageSizeBytes).getInt();
       //int requestApiKey = ByteBuffer.wrap(requestApiKeyBytes).getInt();
       //int requestApiVersion= ByteBuffer.wrap(requestApiVersionBytes).getInt();
-      int correlationId= ByteBuffer.wrap(correlationIdBytes).getInt();
+    //  int correlationId= ByteBuffer.wrap(correlationIdBytes).getInt();
 
 
 
 
-      clientSocket.getOutputStream().write(messageSizeBytes);
+     // clientSocket.getOutputStream().write(messageSizeBytes);
       
-      clientSocket.getOutputStream().write(ByteBuffer.allocate(4).putInt(correlationId).array());
+     // clientSocket.getOutputStream().write(ByteBuffer.allocate(4).putInt(correlationId).array());
       
 
 
