@@ -34,8 +34,8 @@ public class Main {
       byte[] correlationIdBytes = input.readNbytes(4);
 
       int messageSize = ByteBuffer.wrap(messageSizeBytes).getInt();
-      int requestApiKey = ByteBuffer.wrap(requestApiKeyBytes).getInt();
-      int requestApiVersion= ByteBuffer.wrap(requestApiVersionBytes).getInt();
+      //int requestApiKey = ByteBuffer.wrap(requestApiKeyBytes).getInt();
+      //int requestApiVersion= ByteBuffer.wrap(requestApiVersionBytes).getInt();
       int correlationId= ByteBuffer.wrap(correlationIdBytes).getInt();
 
 
