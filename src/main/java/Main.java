@@ -1,42 +1,50 @@
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.io.BufferedInputStream;
 import java.nio.ByteBuffer;
 
-public class Main {
+import java.io.FileInputStream;
 
-  public static void main(String[] args) {
-    // You can use print statements as follows for debugging, they'll be visible
-    // when running tests.
+
+
+
+public class Main {
+  public static void main(String[] args){
     System.err.println("Logs from your program will appear here!");
 
-    // Uncomment this block to pass the first stage
-
-    ServerSocket serverSocket = null;
+    System.err.println("Java version: " + System.getProperty("java.version"));
+    
+     
+    ServerSocket serverSocket = null; 
     Socket clientSocket = null;
     int port = 9092;
     try {
       serverSocket = new ServerSocket(port);
-      // Since the tester restarts your program quite often, setting
-      // SO_REUSEADDR ensures that we don't run into 'Address already in use'
-      // errors
+      // Since the tester restarts your program quite often, setting SO_REUSEADDR
+      // ensures that we don't run into 'Address already in use' errors
       serverSocket.setReuseAddress(true);
       // Wait for connection from client.
       clientSocket = serverSocket.accept();
 
-      BufferedInputStream in =
-          new BufferedInputStream(clientSocket.getInputStream());
-      byte[] messageSizeBytes = in.readNBytes(4);
-      int messageSize = ByteBuffer.wrap(messageSizeBytes).getInt();
 
-      byte[] apiKey = in.readNBytes(2);
-      byte[] apiVersion = in.readNBytes(2);
-      int correlationId = ByteBuffer.wrap(in.readNBytes(4)).getInt();
+      BufferedInputStream input = new BufferedInputStream(clientSocket.getInputStream());
+      
+      byte[] messageSizeBytes = input.readNBytes(4);
+      byte[] requestApiKeyBytes = input.readNBytes(2);
+      byte[] requestApiVersionBytes = input.readNBytes(2);
+      byte[] correlationIdBytes = input.readNBytes(4);
+
+      int messageSize = ByteBuffer.wrap(messageSizeBytes).getInt();
+      int correlationId= ByteBuffer.wrap(correlationIdBytes).getInt();
+
 
       clientSocket.getOutputStream().write(messageSizeBytes);
-      var res = ByteBuffer.allocate(4).putInt(correlationId).array();
-      clientSocket.getOutputStream().write(res);
+
+      var result= ByteBuffer.allocate(4).putInt(correlationId).array();
+      
+      clientSocket.getOutputStream().write(result);
+
 
     } catch (IOException e) {
       System.out.println("IOException: " + e.getMessage());
