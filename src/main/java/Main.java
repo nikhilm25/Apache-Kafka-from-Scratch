@@ -35,6 +35,8 @@ public class Main {
       byte[] requestApiVersionBytes = input.readNBytes(2);
       byte[] correlationIdBytes = input.readNBytes(4);
 
+      byte[] errorCode = {0,0x23};
+
       int messageSize = ByteBuffer.wrap(messageSizeBytes).getInt();
       int correlationId= ByteBuffer.wrap(correlationIdBytes).getInt();
 
@@ -44,6 +46,9 @@ public class Main {
       var result= ByteBuffer.allocate(4).putInt(correlationId).array();
       
       clientSocket.getOutputStream().write(result);
+
+
+      clientSocket.getOutputStream().write(errorCode);
 
 
     } catch (IOException e) {
